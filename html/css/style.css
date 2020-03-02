@@ -308,8 +308,3 @@ input[type=text]{
         flex: 1;
     }
 }
-@media (max-width:756px){
-    ul.path.breadcrumb {
-        display: none;
-    }
-}
