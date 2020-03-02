@@ -1,21 +1,108 @@
 <html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <div class="main">
-            <div class="upper">
-                <div class = "upper__checkout"><b>Checkout</b></div>
-                <div class = "upper__head"><a>Shipping <a><b>Payment Method</b> </a> Confirmation </div>
-                <div class="fa fa-window-close" aria-hidden="true"></div>
-            </div>  
-            <div class="lower">
-                <div class = "lower__Payment">Payment Block</div>
-                <div class = "lower__Cart">Cart Block</div>
-            </div>
-            
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body background='./../images/background.jpg'>
+    <div class="main">
+        <div class="upper">
+            <div class="upper__checkout"><b>Checkout</b></div>
+            <div class="upper__head"><a>Shipping <a><b>Payment Method</b> </a> Confirmation </div>
+            <div class="fa fa-window-close" aria-hidden="true"></div>
         </div>
-    </body>
+        <div class="lower">
+            <div class="lower__left">
+                <div class="lower__left__1">
+                    <div class="lower__left__1__head">Wallet</div>
+                    <div class="lower__left__1__body">
+                      <div class="box">  <img class="place" src='./../images/cards/discover.png' alt="Discover Network Card"><p class="place">Ending with 8899</p></div>
+                      <div class="box">  <img class="place" src='./../images/cards/mastercard.png' alt="MasterCard"><p class="place">Ending with 8899</p></div>
+                      <div class="box">  <img class="place" src='./../images/cards/visa.png' alt="VisaCard"><p class="place">Ending with 8899</p></div>
+                    </div>
+                </div>
+                <div class="lower__left__1__head">New Card</div>
+                <div class="lower__entries">
+                    <form action="#">
+                        <input type="text" id="fname" name="firstname" placeholder="Name on the Card">
+                        <input type="password" id="lname" name="lastname" placeholder="xxxx-xxxx-xxxx-xxxx">
+                        <input type="text" id="lname" name="lastname" placeholder="MM/YY">
+                        <input type="text" id="lname" name="lastname" placeholder="CVV">
+                        <input type="submit" value="Submit">
+                      </form>
+
+                </div>
+            </div>
+            <div class="lower__right">
+
+                <div class="mobile-holder">
+                    <img style="padding: 2% 2% 2% 2%; background-color: lightgray;" src="./../images/products/mobile-holder.jpg" alt="Mobile Holder">
+                    <div class="details">
+                        <div class="name"> Mobile Holder</div>
+                        <div class="colour">Black </div>
+                        <div class="quantity"> Quantity: 1</div>
+
+                    </div>
+                    <div class="price">
+                        <p>$ 10.00 </p>
+                    </div>
+                </div>
+                <div class="Rado-watch">
+                    <img style="padding: 2% 2% 2% 2%; background-color: lightgray;" src="./../images/products/rado.jpg" alt="Rado Watch">
+                    <div class="details">
+                        <div class="name"> Rado Watch</div>
+                        <div class="colour">Black </div>
+                        <div class="quantity"> Quantity: 1</div>
+
+                    </div>
+                    <div class="price">
+                        <p>$ 10.00 </p>
+                    </div>
+                </div>
+                <div class="Usb">
+                    <img style="padding: 2% 2% 2% 2%; background-color: lightgray;" src="./../images/products/usb-c-2-micro.jpeg" alt="Usb Converter">
+                    <div class="details">
+                        <div class="name"> Usb to Type-C</div>
+                        <div class="colour">Black </div>
+                        <div class="quantity"> Quantity: 1</div>
+
+                    </div>
+                    <div class="price">
+                        <p>$ 10.00 </p>
+                    </div>
+                </div>
+                <div class="Mobile-case">
+                    <img style="padding: 2% 2% 2% 2%; background-color: lightgray;" src="./../images/products/hard-case.jpg" alt="Mobile Case">
+                    <div class="details">
+                        <div class="name"> Mobile Cover</div>
+                        <div class="colour">Black </div>
+                        <div class="quantity"> Quantity: 1</div>
+
+                    </div>
+                    <div class="price">
+                        <p>$ 10.00 </p>
+                    </div>
+                </div>
+                <div class="total">
+                    <div class="details" style="padding-top: 16px;">
+                        <div>Sub Total</div>
+                        <div>Shipping</div>
+                        <div>Total</div>
+                    </div>
+                    <div class="pricep">
+                      <p>$ 10.00<br>$ 10.00<br>$ 10.00</p>
+                    </div>
+                </div>
+                <div class="totalp">
+                    <div><b>Total</b></div>
+                    <div class="pricep">$ 10.00</div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
