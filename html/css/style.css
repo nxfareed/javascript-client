@@ -23,13 +23,11 @@
     align-items: center;
     justify-content: flex-start;
 }
-
 .upper__checkout {
     padding-left: 6px;
     flex-grow: 1;
     text-align: left;
 }
-
 .upper__head {
     padding-left: 6px;
     flex-grow: 2;
@@ -42,7 +40,6 @@
     justify-content: space-between;
 }
 .lower {
-
     border: 1px solid rgb(231, 225, 225);
     display: flex;
     flex-direction: row;
@@ -57,7 +54,6 @@
 .entry2{
     display: flex;
     width: 60%;
-
 }
 .lower__left {
     padding-top: 0px;
@@ -67,14 +63,10 @@
     flex-direction: column;
     padding-left: 6px;
 }
-
 .lower__left__1 {
-    
     display: flex ;
-    flex-direction: column;
-    
+    flex-direction: column;   
 }
-
 .lower__left__1 img {
     width: 70%;
     padding-top: 10px;
@@ -82,7 +74,6 @@
 .lower__left__1 p{
     font-size: x-small;
 }
-
 .lower__left__1__head {
     border-bottom: 1px solid rgb(231, 225, 225);
     text-decoration-color: gray;
@@ -122,7 +113,6 @@
     margin-left: 10px;
     cursor: pointer;
 }
-
 .place{
     padding-left: 15%;
 }
@@ -210,9 +200,6 @@
     justify-items: left;
     text-align: left;                           
 }
-
-
-
 .fa-window-close {
     padding-right: 6px;
 }
@@ -220,8 +207,6 @@
 a::after {
     content: ' / ';
 }
-
-
 input[type=text]{
     width: 100%;
     padding: 12px 20px;
@@ -240,7 +225,6 @@ input[type=text]{
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
   input[type=submit] {
     width: 100%;
     background-color: #4CAF50;
@@ -251,25 +235,21 @@ input[type=text]{
     border-radius: 4px;
     cursor: pointer;
   }
-  
   input[type=submit]:hover {
     background-color: #45a049;
   }
   .box:hover{
     background-color:lightgray;
   }
-  
   .lower__entries {
     border-radius: 5px;
     padding: 10px;
     width: 50%;
     align-self: center;
   }
-
   input[type=text]:nth-of-type(3) {
       width: 49%;
   }
-
   input[type=text]:nth-of-type(4) {
     width: 49%;
 }
