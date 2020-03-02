@@ -69,7 +69,7 @@
 }
 .lower__left__1 img {
     width: 70%;
-    padding-top: 10px;
+    padding-top: 8%;
 }
 .lower__left__1 p{
     font-size: x-small;
@@ -82,8 +82,8 @@
 .lower__left__1__body{
     display: flex;
     flex-direction: row;
-    margin-top: 16px;
-    margin-right: 16px;
+    margin-top: 3%;
+    margin-right: 6%;
     justify-content: space-between;
 }
 .total{
@@ -110,7 +110,7 @@
 }
 .box{
     background-color: rgba(236, 229, 229, 0.534);
-    margin-left: 10px;
+    margin-left: 6%;
     cursor: pointer;
 }
 .place{
@@ -252,4 +252,64 @@ input[type=text]{
   }
   input[type=text]:nth-of-type(4) {
     width: 49%;
+}
+
+
+@media screen and (max-width: 790px) {
+    .lower {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 500px ){
+    .lower__left__1__body {
+        flex-direction: column;
+       
+    }
+
+
+    .lower__left__1__body>div:nth-child(1)>img:nth-child(1) {
+        height: 80%;
+        display: block;
+        width: 80%;
+        padding: 2% 5% 8% 8%;
+        flex-grow: 1;
+    }
+
+    .lower__left__1__body>div:nth-child(2)>img:nth-child(1) {
+        height: 80%;
+        display: block;
+        width: 80%;
+        padding: 2% 5% 8% 8%;
+        flex-grow: 1;
+    }
+
+    .lower__left__1__body>div:nth-child(3)>img:nth-child(1) {
+        height: 80%;
+        display: block;
+        width: 80%;
+        padding: 2% 5% 8% 8%;
+        flex-grow: 1;
+    }
+}
+@media only screen and (max-width: 992px){
+    .main{
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+
+@media screen and (min-width: 768) and (max-width: 992){
+    .lower__right{
+        flex: 1;
+    }
+    .lower__left{
+        flex: 1;
+    }
+}
+@media (max-width:756px){
+    ul.path.breadcrumb {
+        display: none;
+    }
 }
