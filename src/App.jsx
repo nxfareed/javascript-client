@@ -1,11 +1,11 @@
 import React from 'react';
-import InputDemo from './pages/InputDemo/InputDemo';
+import ChildrenDemo from './pages/ChildrenDemo/ChildrenDemo';
 
 
 function App() {
   return (
     <div className="App">
-        <InputDemo/>
+        <ChildrenDemo/>
     </div>
   );
 }
