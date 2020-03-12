@@ -17,9 +17,9 @@ export default class CalculatorDemo extends React.Component {
       <>
         <Text first={7} second={4} operator="+" />
         <Text first={7} second={3} operator="-" />
-        <Text first={7} second={20} operator="*" />
+        <Text first={5} second={18} operator="*" />
         <Text first={7} second={0} operator="/" />
-        <Text first={7} second={4} operator="+">
+        <Text first={3} second={5} operator="+">
           {
             (first, second, result) => (
               <p>
@@ -41,7 +41,7 @@ export default class CalculatorDemo extends React.Component {
         </Text>
         <ThemeProvider theme={theme}>
           <Typography>
-            <Text first={3} second={4} operator="+">
+            <Text first={5} second={4} operator="+">
               {
                 (first, second, result) => (
                   <p>
