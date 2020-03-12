@@ -25,26 +25,7 @@ class Slider extends React.Component {
 
       this.setState({ counter });
     }, duration)
-
   }
-  // componentDidMount() {
-  //   //console.log('inside component did mount');
-  //   const { banners, duration, random } = this.props
-  //   this.id = setInterval(() => {
-  //   //console.log('inside set time interval');
-  //   let { counter } = this.state;
-
-  //   if (random && banners.length)
-  //   counter = getRandomNumber(banners.length);
-  //   else if (banners.length)
-  //   counter = getNextRoundRobin(banners.length, counter);
-
-  //   //console.log('update counter',counter);
-
-  //   this.setState({ counter })
-  //   }, duration)
-
-  //   }
   componentWillUnmount() {
     clearInterval(this.id);
   }
