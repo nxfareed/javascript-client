@@ -21,6 +21,7 @@ border-radius: 4px;
 
 const P = styled.p`
 color: red;
+margin: auto
 `;
 export {
   Select, Para, Div, P,
