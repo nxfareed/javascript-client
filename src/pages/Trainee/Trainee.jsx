@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import AddDialog from './Components/AddDialog/index';
 import { withStyles } from '@material-ui/core/styles';
-import NavBar from '../Components/NavBar/Navbar'
 
 const useStyles = (theme) => ({
   button: {
@@ -62,7 +61,6 @@ class Trainee extends Component {
     console.log(this.state);
     return (
       <div>
-        <NavBar/>
         <Button variant="outlined" color="primary" onClick={this.onOpen} className={classes.button}>
           ADD TRAINEE
         </Button>
