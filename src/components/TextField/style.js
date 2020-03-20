@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components';
 
 const Input = styled.input`
+width:100%;
 ${(props) => props.value === 'Disabled Input' && css
   `width:100%;
    `

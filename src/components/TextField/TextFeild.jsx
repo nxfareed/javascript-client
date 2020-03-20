@@ -6,9 +6,12 @@ const TextField = (props) => {
   console.log('textfield demo', props);
   const { onChange, error, onBlur } = props;
   return (
+
     <>
       <Input
         type="text"
+        value = {props.value}
+        disabled={(props.disabled)}
         onChange={onChange}
         onBlur={onBlur}
 
