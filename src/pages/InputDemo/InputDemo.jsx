@@ -37,7 +37,7 @@ class InputDemo extends Component {
   }
 
   onChangeTextField = (event) => {
-    // console.log('Inside onChangeTextField ', event.target.value);
+    console.log('Inside onChangeTextField ', event.target.value);
     this.setState({ name: event.target.value });
   }
 
