@@ -26,6 +26,7 @@ class Slider extends React.Component {
       this.setState({ counter });
     }, duration)
   }
+  
   componentWillUnmount() {
     clearInterval(this.id);
   }
