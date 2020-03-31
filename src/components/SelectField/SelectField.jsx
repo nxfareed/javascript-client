@@ -32,7 +32,9 @@ SelectField.propTypes = {
   error: PropTypes.string,
   onBlur: PropTypes.objectOf.isRequired,
 };
+
 SelectField.defaultProps = {
   error: '',
 };
+
 export default SelectField;

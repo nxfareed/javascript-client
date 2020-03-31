@@ -1,6 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled, {
+  css
+} from 'styled-components';
 
-export const Buttons = styled.button`
+export const Buttons = styled.button `
 ${(props) => props.type === 'cancel'
 && css`
 background-color: #D0D3D4;
@@ -44,6 +46,6 @@ border-radius: 6px;
 `};
 `;
 
-export const Div = styled.div`
+export const Div = styled.div `
 align:right;
 `;
