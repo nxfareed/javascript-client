@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { P } from './style';
+import { Paragraph } from './style';
 
 const RadioGroup = (props) => {
   const {
@@ -18,19 +18,22 @@ const RadioGroup = (props) => {
           </Fragment>
         ))
       }
-      <P>
+      <Paragraph>
         {error}
-      </P>
+      </Paragraph>
     </>
   );
 };
+
 RadioGroup.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   onBlur: PropTypes.objectOf.isRequired,
 };
+
 RadioGroup.defaultProps = {
   error: '',
 };
+
 export default RadioGroup;

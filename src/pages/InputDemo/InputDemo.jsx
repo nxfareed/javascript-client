@@ -48,25 +48,20 @@ class InputDemo extends Component {
       sport='';
     cricket = '';
     football = '';
-    this.setState({ sport, cricket, football }, () => {
-
-    });
+    this.setState({ sport, cricket, football });
   }
 
   onChangeRadioOption = (e) => {
     const { sport } = this.state;
-    let { cricket, football } = this.state;
+    let { cricket, football } = '';
     if (sport === 'cricket') {
       cricket = e.target.value;
       football = '';
-      this.setState({ cricket, football }, () => {
-
-      });
+      this.setState({ cricket, football });
     } else if (sport === 'football') {
       football = e.target.value;
       cricket = '';
-      this.setState({ football, cricket }, () => {
-      });
+      this.setState({ football, cricket });
     }
   }
 

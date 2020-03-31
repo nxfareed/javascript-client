@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, P } from './style';
+import { Select, Paragraph } from './style';
 
 
 const SelectField = (props) => {
@@ -19,12 +19,13 @@ const SelectField = (props) => {
           ))
         }
       </Select>
-      <P>
+      <Paragraph>
         {error}
-      </P>
+      </Paragraph>
     </>
   );
 };
+
 SelectField.propTypes = {
   defaultOption: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -32,7 +33,9 @@ SelectField.propTypes = {
   error: PropTypes.string,
   onBlur: PropTypes.objectOf.isRequired,
 };
+
 SelectField.defaultProps = {
   error: '',
 };
+
 export default SelectField;
