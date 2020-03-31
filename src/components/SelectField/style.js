@@ -19,10 +19,10 @@ border: 1px solid black;
 border-radius: 4px;
 `;
 
-const P = styled.p`
+const Paragraph = styled.p`
 color: red;
 margin: auto
 `;
 export {
-  Select, Para, Div, P,
+  Select, Para, Div, Paragraph,
 };
