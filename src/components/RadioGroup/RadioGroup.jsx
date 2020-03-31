@@ -12,9 +12,10 @@ const RadioGroup = (props) => {
       {
         options && options.length && options.map(({ value, label }) => (
           <Fragment key={label}>
+            <div>
             <input type="radio" name="cricketGroup" value={value} error={error} onChange={onChange} onBlur={onBlur} />
             {label}
-            <br />
+            </div>
           </Fragment>
         ))
       }
