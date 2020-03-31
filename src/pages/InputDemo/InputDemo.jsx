@@ -49,7 +49,7 @@ class InputDemo extends Component {
   };
 
   onChangeSelectOptions = e => {
-    let { sport, cricket, football } = this.state;
+    let { sport, cricket, football } = "";
     sport = e.target.value;
     if (sport === "select") sport = "";
     cricket = "";
