@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Input, { P } from './style';
+import Input, { P, Err } from './style';
 
 const TextField = (props) => {
   console.log('textfield demo', props);
@@ -17,9 +17,9 @@ const TextField = (props) => {
 
       />
 
-      <P>
+      <Err>
         {error}
-      </P>
+      </Err>
     </>
   );
 };
