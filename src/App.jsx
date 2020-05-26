@@ -1,11 +1,13 @@
-import React from 'react';
-import InputDemo from './pages/InputDemo/InputDemo';
-
-
+import React from "react";
+import ChildrenDemo from "./pages/ChildrenDemo/ChildrenDemo";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "../src/theme";
 function App() {
   return (
     <div className="App">
-        <InputDemo/>
+      <ThemeProvider theme={theme}>
+        <ChildrenDemo />
+      </ThemeProvider>
     </div>
   );
 }
