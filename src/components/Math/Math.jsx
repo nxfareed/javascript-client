@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Result from "./result";
 
 const Math = (props) => {
   const { first, second, operator, children } = props;
@@ -18,27 +19,27 @@ const Math = (props) => {
   );
 };
 
-const Result = (props) => {
-  const { first, second, operator } = props;
-  let { result } = props;
-  switch (operator) {
-    case "+":
-      result = first + second;
-      break;
-    case "-":
-      result = first - second;
-      break;
-    case "/":
-      result = first / second;
-      break;
-    case "*":
-      result = first * second;
-      break;
-    default:
-      break;
-  }
-  return result;
-};
+// const Result = (props) => {
+//   const { first, second, operator } = props;
+//   let { result } = props;
+//   switch (operator) {
+//     case "+":
+//       result = first + second;
+//       break;
+//     case "-":
+//       result = first - second;
+//       break;
+//     case "/":
+//       result = first / second;
+//       break;
+//     case "*":
+//       result = first * second;
+//       break;
+//     default:
+//       break;
+//   }
+//   return result;
+// };
 
 Math.propTypes = {
   first: PropTypes.number.isRequired,
