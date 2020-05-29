@@ -1,50 +1,54 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import Result from "./result";
 
-const Text = (props) => {
-  const {
-    first, second, operator, children,
-  } = props;
+const Math = (props) => {
+  const { first, second, operator, children } = props;
   let { result } = props;
-  switch (operator) {
-    case '+': result = first + second;
-      break;
-    case '-': result = first - second;
-      break;
-    case '/': result = first / second;
-      break;
-    case '*': result = first * second;
-      break;
-    default: break;
-  } if (children) {
+  result = Result(props);
+  if (children) {
     return children(first, second, result);
   }
   return (
     <>
       <p>
-        {' '}
-        {first}
-        {' '}
-        {operator}
-        {' '}
-        {second}
-        {' '}
-        =
-{' '}
-        {result}
-        {' '}
+        {" "}
+        {first} {operator} {second} = {result}{" "}
       </p>
     </>
   );
 };
-Text.propTypes = {
+
+// const Result = (props) => {
+//   const { first, second, operator } = props;
+//   let { result } = props;
+//   switch (operator) {
+//     case "+":
+//       result = first + second;
+//       break;
+//     case "-":
+//       result = first - second;
+//       break;
+//     case "/":
+//       result = first / second;
+//       break;
+//     case "*":
+//       result = first * second;
+//       break;
+//     default:
+//       break;
+//   }
+//   return result;
+// };
+
+Math.propTypes = {
   first: PropTypes.number.isRequired,
   second: PropTypes.number.isRequired,
   operator: PropTypes.string.isRequired,
   result: PropTypes.number.isRequired,
   children: PropTypes.func,
 };
-Text.defaultProps = {
+Math.defaultProps = {
   children: undefined,
 };
-export default Text;
+export default Math;
