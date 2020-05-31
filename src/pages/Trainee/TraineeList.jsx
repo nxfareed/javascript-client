@@ -28,10 +28,6 @@ class Trainee extends Component {
     this.setState({ open: status });
   };
 
-  // onClose = () => {
-  //   this.setState({ open: false }, () => { console.log(this.state); });
-  // };
-
   onSubmit = (data) => {
     this.setState({ open: false }, () => {
       console.log(data);
