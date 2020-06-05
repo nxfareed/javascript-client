@@ -1,23 +1,24 @@
-import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import AddDialog from "./components/AddDialog/index";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import AddDialog from './Components/AddDialog/index';
+import { withStyles } from '@material-ui/core/styles';
+import NavBar from '../Components/NavBar/Navbar'
 
 const useStyles = (theme) => ({
   button: {
     marginTop: theme.spacing(2),
   },
   paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -29,9 +30,9 @@ class Trainee extends Component {
     super(props);
     this.state = {
       open: false,
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     };
   }
 
@@ -53,7 +54,7 @@ class Trainee extends Component {
       console.log(data);
     });
     return open;
-  };
+  }
 
   render() {
     const { open } = this.state;
@@ -61,19 +62,11 @@ class Trainee extends Component {
     console.log(this.state);
     return (
       <div>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={this.onOpen}
-          className={classes.button}
-        >
+        <NavBar/>
+        <Button variant="outlined" color="primary" onClick={this.onOpen} className={classes.button}>
           ADD TRAINEE
         </Button>
-        <AddDialog
-          open={open}
-          onClose={this.onClose}
-          onSubmit={() => this.onSubmit}
-        />
+        <AddDialog open={open} onClose={this.onClose} onSubmit={() => this.onSubmit} />
       </div>
     );
   }
