@@ -1,8 +1,6 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-const Text = (props) => {
-  const { first, second, operator, children } = props;
+const Result = (props) => {
+  const { first, second, operator } = props;
   let { result } = props;
   switch (operator) {
     case "+":
@@ -12,7 +10,9 @@ const Text = (props) => {
       result = first - second;
       break;
     case "/":
-      result = first / second;
+      if (first === 0 && second === 0) {
+        result = undefined;
+      } else result = first / second;
       break;
     case "*":
       result = first * second;
@@ -20,29 +20,13 @@ const Text = (props) => {
     default:
       break;
   }
-  if (children) {
-    return children(first, second, result);
-  }
-  return (
-    <>
-      <p>
-        {" "}
-        {first} {operator} {second} = {result}{" "}
-      </p>
-    </>
-  );
+  return result;
 };
-
-Text.propTypes = {
+Result.propTypes = {
   first: PropTypes.number.isRequired,
   second: PropTypes.number.isRequired,
   operator: PropTypes.string.isRequired,
   result: PropTypes.any.isRequired,
-  children: PropTypes.func,
 };
 
-Text.defaultProps = {
-  children: undefined,
-};
-
-export default Text;
+export default Result;
