@@ -1,16 +1,14 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { PrivateRoute, AuthRoute } from "./routes/index";
 import {
-  BrowserRouter as Router, Switch,
-} from 'react-router-dom';
-import { PrivateRoute, AuthRoute } from './routes/index';
-import {
-  TextFieldDemo, InputDemo, CalculatorDemo, Trainee, NotFound, Login,
-} from './pages/index';
-// import { ThemeProvider } from '@material-ui/core/styles';
-// import { Typography } from '@material-ui/core';
-// import { theme } from './theme';
-// import { Trainee } from './pages/index';
-// import Login from './pages/Login/index';
+  TextFieldDemo,
+  InputDemo,
+  CalculatorDemo,
+  Trainee,
+  NotFound,
+  Login,
+} from "./pages/index";
 
 function App() {
   return (
