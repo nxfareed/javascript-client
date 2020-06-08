@@ -1,6 +1,8 @@
-import styled, {css} from 'styled-components';
+import styled, {
+  css
+} from 'styled-components';
 
-const Input = styled.input`
+const Input = styled.input `
 width:100%;
 ${(props) => props.value === 'Disabled Input' && css
   `width:100%;
@@ -14,18 +16,22 @@ ${(props) => props.value === '101' && css
   border-color:red;`
 };`
 
-const Div = styled.div`
+const Div = styled.div `
   border: 1px solid grey;
   padding-left: 6px;
   padding-right: 10px;
   padding-bottom: 6px;`
 
-const P = styled.p`
+const P = styled.p `
 font-weight: bold;`
 
-const Err = styled.p`
+const Err = styled.p `
 color:red;
 font-size:small`
 
 export default Input;
-export {Div,P,Err};
+export {
+  Div,
+  P,
+  Err
+};

@@ -1,25 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Result from "./result";
 
-const Text = (props) => {
+const Math = (props) => {
   const { first, second, operator, children } = props;
   let { result } = props;
-  switch (operator) {
-    case "+":
-      result = first + second;
-      break;
-    case "-":
-      result = first - second;
-      break;
-    case "/":
-      result = first / second;
-      break;
-    case "*":
-      result = first * second;
-      break;
-    default:
-      break;
-  }
+  result = Result(props);
   if (children) {
     return children(first, second, result);
   }
@@ -40,9 +26,7 @@ Text.propTypes = {
   result: PropTypes.any.isRequired,
   children: PropTypes.func,
 };
-
-Text.defaultProps = {
+Math.defaultProps = {
   children: undefined,
 };
-
-export default Text;
+export default Math;
