@@ -1,13 +1,13 @@
 import React from "react";
-import ChildrenDemo from "./pages/ChildrenDemo/ChildrenDemo";
-import { ThemeProvider } from "@material-ui/core";
-import theme from "../src/theme";
+import Trainee from "./pages/Trainee/index";
+import Login from "./pages/Login/Login";
+
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <ChildrenDemo />
-      </ThemeProvider>
+      {/* Use either of the two defined pages at a time as told in the task. */}
+      {/* <Login /> */}
+      <Trainee />
     </div>
   );
 }
