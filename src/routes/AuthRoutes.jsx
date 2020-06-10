@@ -1,6 +1,6 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import AuthLayout from '../layouts/AuthLayout/AuthLayout';
+import React from "react";
+import { Route } from "react-router-dom";
+import { AuthLayout } from "../layouts/index";
 
 const AuthRoute = ({ component: Component, ...rest }) => (
   <Route
