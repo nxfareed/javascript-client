@@ -23,21 +23,15 @@ const Div = styled.div `
   padding-bottom: 6px;`
 
 const P = styled.p `
-font-weight: bold;
-`
+font-weight: bold;`
 
 const Err = styled.p `
 color:red;
-`
+font-size:small`
 
-const Paragraph = styled.p `
-color: red;
-margin: auto
-`;
 export default Input;
 export {
-  Paragraph,
   Div,
-  Err,
-  P
+  P,
+  Err
 };

@@ -19,33 +19,11 @@ const Math = (props) => {
   );
 };
 
-// const Result = (props) => {
-//   const { first, second, operator } = props;
-//   let { result } = props;
-//   switch (operator) {
-//     case "+":
-//       result = first + second;
-//       break;
-//     case "-":
-//       result = first - second;
-//       break;
-//     case "/":
-//       result = first / second;
-//       break;
-//     case "*":
-//       result = first * second;
-//       break;
-//     default:
-//       break;
-//   }
-//   return result;
-// };
-
-Math.propTypes = {
+Text.propTypes = {
   first: PropTypes.number.isRequired,
   second: PropTypes.number.isRequired,
   operator: PropTypes.string.isRequired,
-  result: PropTypes.number.isRequired,
+  result: PropTypes.any.isRequired,
   children: PropTypes.func,
 };
 Math.defaultProps = {
