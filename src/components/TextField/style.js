@@ -27,7 +27,7 @@ font-weight: bold;`
 
 const Err = styled.p `
 color:red;
-font-size:small`
+`
 
 export default Input;
 export {

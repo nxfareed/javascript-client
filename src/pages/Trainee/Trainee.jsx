@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import AddDialog from "./Components/AddDialog/AddDialog";
@@ -80,3 +81,25 @@ class Trainee extends Component {
 }
 
 export default withStyles(useStyles)(Trainee);
+=======
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import TraineeList from "./TraineeList";
+import TraineeDetail from "./TraineeDetail";
+
+const TraineeRoute = (props) => {
+  const {
+    match: { path },
+  } = props;
+  return (
+    <Router>
+      <Switch>
+        <Route exact path={path} component={TraineeList} />
+        <Route exact path={`${path}/:TraineeId`} component={TraineeDetail} />
+      </Switch>
+    </Router>
+  );
+};
+
+export default TraineeRoute;
+>>>>>>> 42bc6c72281bfbf3a8a3ebbb385b037ac66a603b
