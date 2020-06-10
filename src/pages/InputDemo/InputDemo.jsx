@@ -7,7 +7,7 @@ import Button from "../../components/button/button";
 import {
   radioOptionsFootball,
   selectOptions,
-  radioOptionsCricket
+  radioOptionsCricket,
 } from "../../config/constants";
 
 class InputDemo extends Component {
@@ -21,12 +21,12 @@ class InputDemo extends Component {
       sport: yup.string().required("Please select a sport"),
       cricket: yup.string().when("sport", {
         is: "cricket",
-        then: yup.string().required("What you do is required")
+        then: yup.string().required("What you do is required"),
       }),
       football: yup.string().when("sport", {
         is: "football",
-        then: yup.string().required("What you do is required")
-      })
+        then: yup.string().required("What you do is required"),
+      }),
     });
 
     this.state = {
@@ -38,17 +38,17 @@ class InputDemo extends Component {
         name: false,
         sport: false,
         cricket: false,
-        football: false
-      }
+        football: false,
+      },
     };
   }
 
-  onChangeTextField = event => {
-    // console.log('Inside onChangeTextField ', event.target.value);
+  onChangeTextField = (event) => {
+    console.log("Inside onChangeTextField ", event.target.value);
     this.setState({ name: event.target.value });
   };
 
-  onChangeSelectOptions = e => {
+  onChangeSelectOptions = (e) => {
     let { sport, cricket, football } = "";
     sport = e.target.value;
     if (sport === "select") sport = "";
@@ -57,7 +57,7 @@ class InputDemo extends Component {
     this.setState({ sport, cricket, football });
   };
 
-  onChangeRadioOption = e => {
+  onChangeRadioOption = (e) => {
     const { sport } = this.state;
     let { cricket, football } = "";
     if (sport === "cricket") {
@@ -77,7 +77,7 @@ class InputDemo extends Component {
     return sport === "cricket" ? radioOptionsCricket : radioOptionsFootball;
   };
 
-  getError = field => {
+  getError = (field) => {
     if (this.state.touched[field] && this.hasError()) {
       try {
         this.schema.validateSyncAt(field, this.state);
@@ -96,18 +96,18 @@ class InputDemo extends Component {
     return false;
   };
 
-  isTouched = field => {
+  isTouched = (field) => {
     const { touched } = this.state;
     console.log("field", field);
     this.setState({
       touched: {
         ...touched,
-        [field]: true
-      }
+        [field]: true,
+      },
     });
   };
 
-  Submit = props => {
+  Submit = (props) => {
     if (props.sport)
       if (props.sport === "cricket" || props.sport === "football") {
         return (

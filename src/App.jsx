@@ -1,27 +1,35 @@
 import React from "react";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { PrivateRoute, AuthRoute } from "./routes/index";
 import {
-  TextFieldDemo,
-  InputDemo,
-  CalculatorDemo,
-  Trainee,
-  NotFound,
-  Login,
-} from "./pages/index";
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+import ChildrenDemo from "./pages/ChildrenDemo/ChildrenDemo";
+import Trainee from "./pages/Trainee/Trainee";
+import Login from "./pages/Login/Login";
+import TextFieldDemo from "./pages/TextFieldDemo/TextFieldDemo";
+import InputDemo from "./pages/InputDemo/InputDemo";
+import { PrivateRoute, AuthRoute } from "./routes/index";
+import NoMatch from "./pages/NoMatch/NoMatch";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <AuthRoute exact path="/login" component={Login} />
-        <PrivateRoute exact path="/" component={Trainee} />
-        <PrivateRoute exact path="/text-field-demo" component={TextFieldDemo} />
-        <PrivateRoute exact path="/input-demo" component={InputDemo} />
-        <PrivateRoute exact path="/children-demo" component={CalculatorDemo} />
-        <PrivateRoute component={NotFound} />
-      </Switch>
-    </Router>
+    <div>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/Trainee" />
+          </Route>
+          <AuthRoute path="/Login" component={Login} />
+          <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+          <PrivateRoute path="/Trainee" component={Trainee} />
+          <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+          <PrivateRoute path="/InputDemo" component={InputDemo} />
+          <PrivateRoute component={NoMatch} />
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
