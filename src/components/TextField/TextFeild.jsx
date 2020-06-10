@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Input, { Err } from "./style";
+import Input, { P, Err } from "./style";
 
 const TextField = (props) => {
   console.log("textfield demo", props);

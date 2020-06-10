@@ -23,7 +23,8 @@ const Div = styled.div `
   padding-bottom: 6px;`
 
 const P = styled.p `
-font-weight: bold;`
+font-weight: bold;
+`
 
 const Err = styled.p `
 color:red;
