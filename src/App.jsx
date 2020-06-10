@@ -1,14 +1,27 @@
 import React from "react";
-import Trainee from "./pages/Trainee/index";
-import Login from "./pages/Login/Login";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { PrivateRoute, AuthRoute } from "./routes/index";
+import {
+  TextFieldDemo,
+  InputDemo,
+  CalculatorDemo,
+  Trainee,
+  NotFound,
+  Login,
+} from "./pages/index";
 
 function App() {
   return (
-    <div className="App">
-      {/* Use either of the two defined pages at a time as told in the task. */}
-      {/* <Login /> */}
-      <Trainee />
-    </div>
+    <Router>
+      <Switch>
+        <AuthRoute exact path="/login" component={Login} />
+        <PrivateRoute exact path="/" component={Trainee} />
+        <PrivateRoute exact path="/text-field-demo" component={TextFieldDemo} />
+        <PrivateRoute exact path="/input-demo" component={InputDemo} />
+        <PrivateRoute exact path="/children-demo" component={CalculatorDemo} />
+        <PrivateRoute component={NotFound} />
+      </Switch>
+    </Router>
   );
 }
 
