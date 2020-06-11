@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, Button } from "@material-ui/core";
 import AddDialog from "./Components/AddDialog/AddDialog";
 import trainee from "./data/trainee";
 import Table from "./Components/Table/Table";
