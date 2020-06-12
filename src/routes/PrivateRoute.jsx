@@ -1,6 +1,6 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import PrivateLayout from '../layouts/PrivateLayout/PrivateLayout';
+import React from "react";
+import { Route } from "react-router-dom";
+import { PrivateLayout } from "../layouts/index";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route

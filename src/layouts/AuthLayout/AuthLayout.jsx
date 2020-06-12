@@ -1,10 +1,12 @@
-import React from 'react';
-import Footer from '../Components/Footer/Footer';
+import React from "react";
+import { Footer } from "../Components/index";
 
 const AuthLayout = ({ children, ...rest }) => (
   <div>
     <div>{children}</div>
-    <div><Footer /></div>
+    <div>
+      <Footer />
+    </div>
   </div>
 );
 

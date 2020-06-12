@@ -4,7 +4,7 @@ import Input, { Err } from "./style";
 
 const TextField = (props) => {
   console.log("textfield demo", props);
-  const { onChange, error, onBlur } = props;
+  const { onChange, error, onBlur, value, disabled } = props;
   return (
     <>
       <Input type="text" onChange={onChange} onBlur={onBlur} />
@@ -13,12 +13,15 @@ const TextField = (props) => {
     </>
   );
 };
+
 TextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,
   onBlur: PropTypes.objectOf.isRequired,
 };
+
 TextField.defaultProps = {
   error: "",
 };
+
 export default TextField;
