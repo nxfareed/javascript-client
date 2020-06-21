@@ -10,25 +10,29 @@ import Trainee from "./pages/Trainee/Trainee";
 import Login from "./pages/Login/Login";
 import TextFieldDemo from "./pages/TextFieldDemo/TextFieldDemo";
 import InputDemo from "./pages/InputDemo/InputDemo";
-import { PrivateRoute, AuthRoute } from "./routes/index";
+import { PrivateRoute } from "./routes";
+import { AuthRoute } from "./routes";
 import NoMatch from "./pages/NoMatch/NoMatch";
+import SnackBarProvider from "./contexts/SnackBarProvider/SnackBarProvider";
 
 function App() {
   return (
     <div>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/Trainee" />
-          </Route>
-          <AuthRoute path="/Login" component={Login} />
-          <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
-          <PrivateRoute path="/Trainee" component={Trainee} />
-          <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
-          <PrivateRoute path="/InputDemo" component={InputDemo} />
-          <PrivateRoute component={NoMatch} />
-        </Switch>
-      </Router>
+      <SnackBarProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/Trainee" />
+            </Route>
+            <AuthRoute path="/Login" component={Login} />
+            <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+            <PrivateRoute path="/Trainee" component={Trainee} />
+            <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+            <PrivateRoute path="/InputDemo" component={InputDemo} />
+            <PrivateRoute component={NoMatch} />
+          </Switch>
+        </Router>
+      </SnackBarProvider>
     </div>
   );
 }
