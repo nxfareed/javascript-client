@@ -30,9 +30,14 @@ const Err = styled.p `
 color:red;
 `
 
+const Paragraph = styled.p `
+color: red;
+margin: auto
+`;
 export default Input;
 export {
+  Paragraph,
   Div,
-  P,
-  Err
+  Err,
+  P
 };
