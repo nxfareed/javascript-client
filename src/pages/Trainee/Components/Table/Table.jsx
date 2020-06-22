@@ -21,7 +21,7 @@ const StyledTableRow = withStyles((theme) =>
     },
   })
 )(TableRow);
-
+  
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 });
 
 const SimpleTable = (props) => {
-  const { id, data, columns, order, orderBy, onSort, onSelect } = props;
+const { id, data, columns, order, orderBy, onSort, onSelect } = props;
 
   const classes = useStyles();
 

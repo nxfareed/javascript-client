@@ -55,7 +55,9 @@ class Trainee extends Component {
   Convert = (email) => email.toUpperCase();
 
   render() {
+
     const { open, order, orderBy } = this.state;
+
     const { classes } = this.props;
 
     return (
@@ -81,6 +83,7 @@ class Trainee extends Component {
             {
               field: "email",
               label: "Email Address",
+
               format: (value) => value && value.toUpperCase(),
             },
             {
@@ -95,6 +98,7 @@ class Trainee extends Component {
           onSort={this.handleSort}
           onSelect={this.handleSelect}
         />
+
         <AddDialog
           onClose={() => this.openDialog(false)}
           onSubmit={() => this.onSubmit}
