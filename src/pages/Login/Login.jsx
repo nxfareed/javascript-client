@@ -90,7 +90,8 @@ class Login extends Component {
       loading: true,
       hasError: true,
     });
-    await callApi("post", "/user/login", data);
+    const response = await callApi("post", "/user/login", { data });
+    ls.set("token", response);
     this.setState({ loading: false });
     if (ls.get("token")) {
       this.setState({
