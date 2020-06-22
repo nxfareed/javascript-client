@@ -83,17 +83,27 @@ class Login extends Component {
     if (redirect) {
       return <Redirect to="/Trainee" />;
     }
+    return true;
   };
 
-  onClickHandler = async (data, openSnackBar) => {
+  onClickHandler = async (Data, openSnackBar) => {
     this.setState({
       loading: true,
       hasError: true,
     });
-    const response = await callApi("post", "/user/login", { data });
-    ls.set("token", response);
+
+    const response = await callApi("post", "/user/login", {
+      data: Data,
+      headers: {
+        Authorization: ls.get("token"),
+      },
+    });
+    ls.set("token", response.data);
+
     this.setState({ loading: false });
-    if (ls.get("token")) {
+
+    const getToken = ls.get("token");
+    if (getToken !== "undefined") {
       this.setState({
         redirect: true,
         hasError: false,
@@ -170,7 +180,6 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     const { email, password, hasError, error, loading } = this.state;
-    // console.log(this.state);
     this.hasErrors();
     return (
       <Container component="main" maxWidth="xs">

@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withStyles, createStyles, makeStyles } from "@material-ui/core/styles";
+import withLoaderAndMessage from "../../../../components/HOC/withLoaderAndMessage";
 
 const StyledTableRow = withStyles((theme) =>
   createStyles({
@@ -60,12 +61,16 @@ const SimpleTable = (props) => {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
-          <TableRow hover>
+          <TableRow key={id}>
             <>
               {columns &&
                 columns.length &&
                 columns.map(({ align, label, field }) => (
-                  <TableCell align={align} className={classes.column}>
+                  <TableCell
+                    key={label}
+                    align={align}
+                    className={classes.column}
+                  >
                     <TableSortLabel
                       align={align}
                       active={orderBy === field}
@@ -80,47 +85,49 @@ const SimpleTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((element) => (
-              <StyledTableRow hover key={element[id]}>
-                {columns &&
-                  columns.length &&
-                  columns.map(({ field, align, format }) => (
-                    <TableCell
-                      align={align}
-                      onClick={() => onSelect(element.name)}
-                      component="th"
-                      scope="row"
-                    >
-                      {format !== undefined
-                        ? format(element[field])
-                        : element[field]}
-                    </TableCell>
-                  ))}
-                {action &&
-                  action.length &&
-                  action.map(({ icon, handler }) => (
-                    <TableCell onClick={() => handler(element)}>
-                      {icon}
-                    </TableCell>
-                  ))}
-              </StyledTableRow>
-            ))}
+          {data.length ? (
+            <>
+              {data.map((element) => (
+                <StyledTableRow hover key={element.originalId}>
+                  {columns &&
+                    columns.length &&
+                    columns.map(({ field, align, format }) => (
+                      <TableCell
+                        key={field}
+                        align={align}
+                        onClick={() => onSelect(element.name)}
+                        component="th"
+                        scope="row"
+                      >
+                        {format !== undefined
+                          ? format(element[field])
+                          : element[field]}
+                      </TableCell>
+                    ))}
+                  {action &&
+                    action.length &&
+                    action.map(({ icon, handler, label }) => (
+                      <TableCell key={label} onClick={() => handler(element)}>
+                        {icon}
+                      </TableCell>
+                    ))}
+                </StyledTableRow>
+              ))}
+            </>
+          ) : (
+            <TableRow>
+              <TableCell align="center" colSpan={4}>
+                <div align="center">
+                  <h1>OOPS!, No More Trainees</h1>
+                </div>
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[
-                3,
-                5,
-                7,
-                10,
-                15,
-                25,
-                100,
-                { label: "All", value: -1 },
-              ]}
+              rowsPerPageOptions={[0]}
               count={count}
               SelectProps={{
                 inputProps: { "aria-label": "rows per page" },
@@ -138,7 +145,7 @@ const SimpleTable = (props) => {
   );
 };
 
-export default SimpleTable;
+export default withLoaderAndMessage(SimpleTable);
 
 SimpleTable.propTypes = {
   id: PropTypes.string.isRequired,
