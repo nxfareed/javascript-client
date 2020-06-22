@@ -55,7 +55,6 @@ class Trainee extends Component {
   Convert = (email) => email.toUpperCase();
 
   render() {
-
     const { open, order, orderBy } = this.state;
 
     const { classes } = this.props;
