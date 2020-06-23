@@ -1,21 +1,21 @@
 import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import * as yup from "yup";
 import {
-  withStyles,
-  Button,
-  TextField,
   Dialog,
+  TextField,
+  Button,
+  Grid,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   InputAdornment,
-  Grid,
 } from "@material-ui/core";
-import * as yup from "yup";
 import PersonIcon from "@material-ui/icons/Person";
+import PropTypes from "prop-types";
 import EmailIcon from "@material-ui/icons/Email";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import PropTypes from "prop-types";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required").min(3),
@@ -141,7 +141,7 @@ class AddDialog extends Component {
                 label="Name *"
                 id="outlined-start-adornment"
                 value={name}
-                error={Boolean(error.name)}
+                error={error.name}
                 fullWidth
                 onChange={this.handleChange("name")}
                 helperText={this.getError("name")}
@@ -161,7 +161,7 @@ class AddDialog extends Component {
                 label="Email Address"
                 id="outlined-start-adornment"
                 value={email}
-                error={Boolean(error.email)}
+                error={error.email}
                 fullWidth
                 onChange={this.handleChange("email")}
                 helperText={this.getError("email")}
@@ -182,7 +182,7 @@ class AddDialog extends Component {
                 id="outlined-start-adornment"
                 type="password"
                 value={password}
-                error={Boolean(error.password)}
+                error={error.password}
                 fullWidth
                 onChange={this.handleChange("password")}
                 helperText={this.getError("password")}
@@ -202,7 +202,7 @@ class AddDialog extends Component {
                 label="Confirm Password"
                 id="outlined-start-adornment"
                 type="password"
-                error={Boolean(error.confirmPassword)}
+                error={error.confirmPassword}
                 fullWidth
                 value={confirmPassword}
                 onChange={this.handleChange("confirmPassword")}
@@ -245,10 +245,11 @@ class AddDialog extends Component {
   }
 }
 
-export default withStyles(useStyles)(AddDialog);
-
 AddDialog.propTypes = {
+  // value: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
+
+export default withStyles(useStyles)(AddDialog);

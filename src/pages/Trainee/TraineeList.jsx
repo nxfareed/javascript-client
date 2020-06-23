@@ -101,6 +101,7 @@ class Trainee extends Component {
       RemoveOpen,
       newData,
     } = this.state;
+
     const { classes } = this.props;
 
     return (
@@ -126,6 +127,7 @@ class Trainee extends Component {
             {
               field: "email",
               label: "Email Address",
+
               format: (value) => value && value.toUpperCase(),
             },
             {
@@ -154,6 +156,7 @@ class Trainee extends Component {
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
           onChangePage={this.handleChangePage}
         />
+
         <AddDialog
           data={newData}
           onClose={() => this.openDialog(false)}
