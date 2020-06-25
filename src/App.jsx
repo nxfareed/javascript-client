@@ -14,7 +14,7 @@ import {
   NoMatch,
 } from "./pages";
 import { PrivateRoute, AuthRoute } from "./routes";
-import SnackBarProvider from "./contexts/SnackBarProvider/SnackBarProvider";
+import { SnackBarProvider } from "./contexts";
 
 const App = () => {
   return (
