@@ -5,6 +5,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TableFooter,
+  TablePagination,
   TableRow,
   TableSortLabel,
   Paper,
@@ -50,7 +52,6 @@ const SimpleTable = (props) => {
     rowsPerPage,
     onChangePage,
   } = props;
-
 
   const classes = useStyles();
 

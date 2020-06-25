@@ -3,11 +3,8 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import AddDialog from "./Components/AddDialog/AddDialog";
-import EditDialog from "./Components/EditDialog/EditDialog";
-import RemoveDialog from "./Components/RemoveDialog/RemoveDialog";
+import { AddDialog, EditDialog, RemoveDialog, Table } from "./Components";
 import trainee from "./data/trainee";
-import Table from "./Components/Table/Table";
 import moment from "moment";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -26,8 +23,8 @@ class Trainee extends Component {
 
     this.state = {
       open: false,
-      EditOpen: false,
-      RemoveOpen: false,
+      editOpen: false,
+      removeOpen: false,
       orderBy: "",
       order: "asc",
       page: 0,
@@ -41,7 +38,7 @@ class Trainee extends Component {
   };
 
   onSubmit = (data) => {
-    this.setState({ open: false, EditOpen: false }, () => {
+    this.setState({ open: false, editOpen: false }, () => {
       console.log("Submit Item", data);
     });
   };
@@ -59,20 +56,20 @@ class Trainee extends Component {
   };
 
   handleClose = (data, status) => {
-    this.setState({ EditOpen: status, RemoveOpen: status });
+    this.setState({ editOpen: status, removeOpen: status });
   };
 
   handleDeleteClick = (values) => {
-    this.setState({ RemoveOpen: false });
+    this.setState({ removeOpen: false });
     console.log("Deleted Items", values.data);
   };
 
   handleEditDialogOpen = (data) => {
-    this.setState({ EditOpen: true, newData: data });
+    this.setState({ editOpen: true, newData: data });
   };
 
   handleRemoveDialogOpen = (data) => {
-    this.setState({ RemoveOpen: true, newData: data });
+    this.setState({ removeOpen: true, newData: data });
   };
 
   handleChangePage = (event, newPage) => {
@@ -97,8 +94,8 @@ class Trainee extends Component {
       orderBy,
       page,
       rowsPerPage,
-      EditOpen,
-      RemoveOpen,
+      editOpen,
+      removeOpen,
       newData,
     } = this.state;
 
@@ -167,13 +164,13 @@ class Trainee extends Component {
           data={newData}
           onClose={() => this.handleClose(false)}
           onSubmit={this.onSubmit}
-          open={EditOpen}
+          open={editOpen}
         />
         <RemoveDialog
           data={newData}
           onClose={() => this.handleClose(false)}
           onSubmit={this.handleDeleteClick}
-          open={RemoveOpen}
+          open={removeOpen}
         />
 
         <ul>

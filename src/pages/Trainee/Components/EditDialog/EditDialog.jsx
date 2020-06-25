@@ -80,12 +80,14 @@ class EditDialog extends Component {
         isValid: true,
       },
       () => {
+        const obj = {};
         Object.keys(data).forEach((keys) => {
           if (!touched[keys]) {
-            this.setState({
-              [keys]: data[keys],
-            });
+            obj[keys] = data[keys];
           }
+        });
+        this.setState({
+          ...obj,
         });
       }
     );
@@ -101,8 +103,8 @@ class EditDialog extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { open, onClose, onSubmit, data } = this.props;
+    // const { classes } = this.props;
+    const { classes, open, onClose, onSubmit, data } = this.props;
     const { name, email, isValid } = this.state;
 
     return (
