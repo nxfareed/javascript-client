@@ -5,10 +5,10 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  TableSortLabel,
   TableFooter,
   TablePagination,
+  TableRow,
+  TableSortLabel,
   Paper,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -23,7 +23,6 @@ const StyledTableRow = withStyles((theme) =>
     },
   })
 )(TableRow);
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
