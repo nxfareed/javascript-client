@@ -14,7 +14,7 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import { MyContext } from "../../../../contexts/SnackBarProvider/SnackBarProvider";
+import { MyContext } from "../../../../contexts";
 
 const useStyles = () => ({
   root: {
@@ -102,8 +102,8 @@ class EditDialog extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { open, onClose, onSubmit, data } = this.props;
+    // const { classes } = this.props;
+    const { classes, open, onClose, onSubmit, data } = this.props;
     const { name, email, isValid } = this.state;
 
     return (
