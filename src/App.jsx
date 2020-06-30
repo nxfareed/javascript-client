@@ -1,4 +1,5 @@
 import React from "react";
+import ls from "local-storage";
 import {
   BrowserRouter as Router,
   Route,
@@ -20,19 +21,35 @@ const App = () => {
   return (
     <div>
       <SnackBarProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/Trainee" />
-            </Route>
-            <AuthRoute path="/Login" component={Login} />
-            <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
-            <PrivateRoute path="/Trainee" component={Trainee} />
-            <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
-            <PrivateRoute path="/InputDemo" component={InputDemo} />
-            <PrivateRoute component={NoMatch} />
-          </Switch>
-        </Router>
+        {ls.get("token") ? (
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/Trainee" />
+              </Route>
+              <AuthRoute path="/Login" component={Login} />
+              <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+              <PrivateRoute path="/Trainee" component={Trainee} />
+              <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+              <PrivateRoute path="/InputDemo" component={InputDemo} />
+              <PrivateRoute component={NoMatch} />
+            </Switch>
+          </Router>
+        ) : (
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/Login" />
+              </Route>
+              <AuthRoute path="/Login" component={Login} />
+              <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+              <PrivateRoute path="/Trainee" component={Trainee} />
+              <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+              <PrivateRoute path="/InputDemo" component={InputDemo} />
+              <PrivateRoute component={NoMatch} />
+            </Switch>
+          </Router>
+        )}
       </SnackBarProvider>
     </div>
   );

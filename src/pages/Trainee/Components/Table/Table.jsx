@@ -88,7 +88,6 @@ const SimpleTable = (props) => {
                   columns.map(({ field, align, format }) => (
                     <TableCell
                       align={align}
-                      // format={format}
                       onClick={() => onSelect(element.name)}
                       component="th"
                       scope="row"
