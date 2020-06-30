@@ -5,18 +5,19 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import ChildrenDemo from "./pages/ChildrenDemo/ChildrenDemo";
-import Trainee from "./pages/Trainee/Trainee";
-import Login from "./pages/Login/Login";
-import TextFieldDemo from "./pages/TextFieldDemo/TextFieldDemo";
-import InputDemo from "./pages/InputDemo/InputDemo";
-import { PrivateRoute } from "./routes";
-import { AuthRoute } from "./routes";
-import NoMatch from "./pages/NoMatch/NoMatch";
-import SnackBarProvider from "./contexts/SnackBarProvider/SnackBarProvider";
 import ls from "local-storage";
+import {
+  ChildrenDemo,
+  Trainee,
+  Login,
+  TextFieldDemo,
+  InputDemo,
+  NoMatch,
+} from "./pages";
+import { PrivateRoute, AuthRoute } from "./routes";
+import { SnackBarProvider } from "./contexts";
 
-function App() {
+const App = () => {
   return (
     <div>
       <SnackBarProvider>
@@ -52,6 +53,6 @@ function App() {
       </SnackBarProvider>
     </div>
   );
-}
+};
 
 export default App;
