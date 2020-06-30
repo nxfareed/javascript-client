@@ -5,6 +5,8 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TableFooter,
+  TablePagination,
   TableRow,
   TableSortLabel,
   Paper,
@@ -21,18 +23,35 @@ const StyledTableRow = withStyles((theme) =>
     },
   })
 )(TableRow);
-  
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
   column: {
     color: "grey",
   },
-});
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
 
 const SimpleTable = (props) => {
-const { id, data, columns, order, orderBy, onSort, onSelect } = props;
+  const {
+    id,
+    data,
+    columns,
+    order,
+    orderBy,
+    onSort,
+    onSelect,
+    action,
+    count,
+    onChangeRowsPerPage,
+    page,
+    rowsPerPage,
+    onChangePage,
+  } = props;
 
   const classes = useStyles();
 
@@ -60,26 +79,60 @@ const { id, data, columns, order, orderBy, onSort, onSelect } = props;
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((element) => (
-            <StyledTableRow hover key={element[id]}>
-              {columns &&
-                columns.length &&
-                columns.map(({ field, align, format }) => (
-                  <TableCell
-                    align={align}
-                    format={format}
-                    onClick={(event) => onSelect(event, element.name)}
-                    component="th"
-                    scope="row"
-                  >
-                    {format !== undefined
-                      ? format(element[field])
-                      : element[field]}
-                  </TableCell>
-                ))}
-            </StyledTableRow>
-          ))}
+          {data
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((element) => (
+              <StyledTableRow hover key={element[id]}>
+                {columns &&
+                  columns.length &&
+                  columns.map(({ field, align, format }) => (
+                    <TableCell
+                      align={align}
+                      format={format}
+                      onClick={() => onSelect(element.name)}
+                      component="th"
+                      scope="row"
+                    >
+                      {format !== undefined
+                        ? format(element[field])
+                        : element[field]}
+                    </TableCell>
+                  ))}
+                {action &&
+                  action.length &&
+                  action.map(({ icon, handler }) => (
+                    <TableCell onClick={() => handler(element)}>
+                      {icon}
+                    </TableCell>
+                  ))}
+              </StyledTableRow>
+            ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[
+                3,
+                5,
+                7,
+                10,
+                15,
+                25,
+                100,
+                { label: "All", value: -1 },
+              ]}
+              count={count}
+              SelectProps={{
+                inputProps: { "aria-label": "rows per page" },
+                native: true,
+              }}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={onChangePage}
+              onChangeRowsPerPage={onChangeRowsPerPage}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );
@@ -91,6 +144,12 @@ SimpleTable.propTypes = {
   id: PropTypes.string.isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  action: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  onChangeRowsPerPage: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
   onSort: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   orderBy: PropTypes.string,

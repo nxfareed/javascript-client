@@ -3,10 +3,11 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import AddDialog from "./Components/AddDialog/AddDialog";
+import { AddDialog, EditDialog, RemoveDialog, Table } from "./Components";
 import trainee from "./data/trainee";
-import Table from "./Components/Table/Table";
 import moment from "moment";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = (theme) => ({
   root: {
@@ -22,9 +23,13 @@ class Trainee extends Component {
 
     this.state = {
       open: false,
-      selected: "",
+      editOpen: false,
+      removeOpen: false,
       orderBy: "",
-      order: "",
+      order: "asc",
+      page: 0,
+      rowsPerPage: 3,
+      newData: {},
     };
   }
 
@@ -33,8 +38,8 @@ class Trainee extends Component {
   };
 
   onSubmit = (data) => {
-    this.setState({ open: false }, () => {
-      console.log(data);
+    this.setState({ open: false, editOpen: false }, () => {
+      console.log("Submit Item", data);
     });
   };
 
@@ -46,16 +51,53 @@ class Trainee extends Component {
     });
   };
 
-  handleSelect = (event, data) => {
-    this.setState({ selected: event.target.value }, () => console.log(data));
+  handleSelect = (data) => {
+    console.log(data);
+  };
+
+  handleClose = (data, status) => {
+    this.setState({ editOpen: status, removeOpen: status });
+  };
+
+  handleDeleteClick = (values) => {
+    this.setState({ removeOpen: false });
+    console.log("Deleted Items", values.data);
+  };
+
+  handleEditDialogOpen = (data) => {
+    this.setState({ editOpen: true, newData: data });
+  };
+
+  handleRemoveDialogOpen = (data) => {
+    this.setState({ removeOpen: true, newData: data });
+  };
+
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    });
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: event.target.value,
+      page: 0,
+    });
   };
 
   Format = (date) => moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
-  Convert = (email) => email.toUpperCase();
-
   render() {
-    const { open, order, orderBy } = this.state;
+    const {
+      open,
+      order,
+      orderBy,
+      page,
+      rowsPerPage,
+      editOpen,
+      removeOpen,
+      newData,
+    } = this.state;
 
     const { classes } = this.props;
 
@@ -88,20 +130,47 @@ class Trainee extends Component {
             {
               field: "createdAt",
               label: "Date",
-              align: "right",
               format: this.Format,
+            },
+          ]}
+          action={[
+            {
+              icon: <EditIcon />,
+              handler: this.handleEditDialogOpen,
+            },
+            {
+              icon: <DeleteIcon />,
+              handler: this.handleRemoveDialogOpen,
             },
           ]}
           orderBy={orderBy}
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
+          count={100}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          onChangePage={this.handleChangePage}
         />
 
         <AddDialog
+          data={newData}
           onClose={() => this.openDialog(false)}
           onSubmit={() => this.onSubmit}
           open={open}
+        />
+        <EditDialog
+          data={newData}
+          onClose={() => this.handleClose(false)}
+          onSubmit={this.onSubmit}
+          open={editOpen}
+        />
+        <RemoveDialog
+          data={newData}
+          onClose={() => this.handleClose(false)}
+          onSubmit={this.handleDeleteClick}
+          open={removeOpen}
         />
 
         <ul>
@@ -121,11 +190,5 @@ class Trainee extends Component {
 }
 Trainee.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]),
-  orderBy: PropTypes.string,
-};
-Trainee.defaultProps = {
-  orderBy: "",
-  order: "asc",
 };
 export default withStyles(useStyles)(Trainee);
