@@ -3,11 +3,13 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import ls from "local-storage";
 import { AddDialog, EditDialog, RemoveDialog, Table } from "./Components";
 import trainee from "./data/trainee";
 import moment from "moment";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import callApi from "../../libs/utils/callApi";
 
 const useStyles = (theme) => ({
   root: {
@@ -28,8 +30,12 @@ class Trainee extends Component {
       orderBy: "",
       order: "asc",
       page: 0,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
       newData: {},
+      rowData: [],
+      loading: true,
+      count: 0,
+      message: "",
     };
   }
 
@@ -73,12 +79,15 @@ class Trainee extends Component {
   };
 
   handleChangePage = (event, newPage) => {
+    this.componentDidMount(newPage);
     this.setState({
       page: newPage,
+      loading: true,
     });
   };
 
   handleChangeRowsPerPage = (event) => {
+    this.componentDidMount();
     this.setState({
       rowsPerPage: event.target.value,
       page: 0,
@@ -86,6 +95,39 @@ class Trainee extends Component {
   };
 
   handleFormat = (date) => moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
+
+  componentDidMount = (newPage) => {
+    const { rowsPerPage } = this.state;
+    const value = this.context;
+    callApi("get", "/trainee", {
+      params: {
+        skip: newPage * rowsPerPage,
+        limit: newPage * rowsPerPage + rowsPerPage,
+      },
+      headers: {
+        Authorization: ls.get("token"),
+      },
+    }).then((res) => {
+      if (res.data === undefined) {
+        this.setState(
+          {
+            loading: false,
+            message: "This is an error",
+          },
+          () => {
+            const { message } = this.state;
+            value.openSnackBar(message, "error");
+          }
+        );
+      } else {
+        this.setState({
+          rowData: res.data.records,
+          count: res.data.count,
+          loading: false,
+        });
+      }
+    });
+  };
 
   render() {
     const {
@@ -97,6 +139,9 @@ class Trainee extends Component {
       editOpen,
       removeOpen,
       newData,
+      rowData,
+      loading,
+      count,
     } = this.state;
 
     const { classes } = this.props;
@@ -114,7 +159,7 @@ class Trainee extends Component {
         </div>
         <Table
           id="id"
-          data={trainee}
+          data={rowData}
           columns={[
             {
               field: "name",
@@ -152,6 +197,7 @@ class Trainee extends Component {
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
           onChangePage={this.handleChangePage}
+          loading={loading}
         />
 
         <AddDialog
