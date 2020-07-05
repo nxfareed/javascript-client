@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { withStyles, createStyles, makeStyles } from "@material-ui/core/styles";
+import withLoaderAndMessage from "./../../../../components/HOC/withLoaderAndMessage";
 
 const StyledTableRow = withStyles((theme) =>
   createStyles({
@@ -79,33 +80,32 @@ const SimpleTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((element) => (
-              <StyledTableRow hover key={element[id]}>
-                {columns &&
-                  columns.length &&
-                  columns.map(({ field, align, format }) => (
-                    <TableCell
-                      align={align}
-                      onClick={() => onSelect(element.name)}
-                      component="th"
-                      scope="row"
-                    >
-                      {format !== undefined
-                        ? format(element[field])
-                        : element[field]}
-                    </TableCell>
-                  ))}
-                {action &&
-                  action.length &&
-                  action.map(({ icon, handler }) => (
-                    <TableCell onClick={() => handler(element)}>
-                      {icon}
-                    </TableCell>
-                  ))}
-              </StyledTableRow>
-            ))}
+          {(rowsPerPage > 0
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
+          ).map((element) => (
+            <StyledTableRow hover key={element[id]}>
+              {columns &&
+                columns.length &&
+                columns.map(({ field, align, format }) => (
+                  <TableCell
+                    align={align}
+                    onClick={() => onSelect(element.name)}
+                    component="th"
+                    scope="row"
+                  >
+                    {format !== undefined
+                      ? format(element[field])
+                      : element[field]}
+                  </TableCell>
+                ))}
+              {action &&
+                action.length &&
+                action.map(({ icon, handler }) => (
+                  <TableCell onClick={() => handler(element)}>{icon}</TableCell>
+                ))}
+            </StyledTableRow>
+          ))}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -137,7 +137,7 @@ const SimpleTable = (props) => {
   );
 };
 
-export default SimpleTable;
+export default withLoaderAndMessage(SimpleTable);
 
 SimpleTable.propTypes = {
   id: PropTypes.string.isRequired,
