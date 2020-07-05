@@ -11,6 +11,7 @@ import {
   TableSortLabel,
   Paper,
 } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import { withStyles, createStyles, makeStyles } from "@material-ui/core/styles";
 import withLoaderAndMessage from "../../../../components/HOC/withLoaderAndMessage";
@@ -52,6 +53,7 @@ const SimpleTable = (props) => {
     page,
     rowsPerPage,
     onChangePage,
+    loading,
   } = props;
 
   const classes = useStyles();
@@ -84,34 +86,49 @@ const SimpleTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.length ? (
+          {data.length || loading ? (
             <>
-              {data.map((element) => (
-                <StyledTableRow hover key={element.originalId}>
-                  {columns &&
-                    columns.length &&
-                    columns.map(({ field, align, format }) => (
-                      <TableCell
-                        key={field}
-                        align={align}
-                        onClick={() => onSelect(element.name)}
-                        component="th"
-                        scope="row"
-                      >
-                        {format !== undefined
-                          ? format(element[field])
-                          : element[field]}
-                      </TableCell>
-                    ))}
-                  {action &&
-                    action.length &&
-                    action.map(({ icon, handler, label }) => (
-                      <TableCell key={label} onClick={() => handler(element)}>
-                        {icon}
-                      </TableCell>
-                    ))}
-                </StyledTableRow>
-              ))}
+              {loading ? (
+                <TableRow>
+                  <TableCell align="center" colSpan={4}>
+                    <div align="center">
+                      <CircularProgress />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                <>
+                  {data.map((element) => (
+                    <StyledTableRow hover key={element.originalId}>
+                      {columns &&
+                        columns.length &&
+                        columns.map(({ field, align, format }) => (
+                          <TableCell
+                            key={field}
+                            align={align}
+                            onClick={() => onSelect(element.name)}
+                            component="th"
+                            scope="row"
+                          >
+                            {format !== undefined
+                              ? format(element[field])
+                              : element[field]}
+                          </TableCell>
+                        ))}
+                      {action &&
+                        action.length &&
+                        action.map(({ icon, handler, label }) => (
+                          <TableCell
+                            key={label}
+                            onClick={() => handler(element)}
+                          >
+                            {icon}
+                          </TableCell>
+                        ))}
+                    </StyledTableRow>
+                  ))}
+                </>
+              )}
             </>
           ) : (
             <TableRow>
@@ -160,6 +177,7 @@ SimpleTable.propTypes = {
   onSelect: PropTypes.func.isRequired,
   orderBy: PropTypes.string,
   order: PropTypes.oneOf(["asc", "desc"]),
+  loading: PropTypes.bool.isRequired,
 };
 SimpleTable.defaultProps = {
   orderBy: "",

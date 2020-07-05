@@ -3,8 +3,24 @@ import {
 } from 'apollo-boost';
 import ApolloClient from 'apollo-client';
 import {
+  setContext
+} from 'apollo-link-context';
+import ls from 'local-storage';
+import {
   HttpLink
 } from 'apollo-link-http';
+
+const authLink = setContext((_, {
+  headers
+}) => {
+  const token = ls.get('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token,
+    },
+  };
+});
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_APOLLO_GRAPHQL_URI,
@@ -13,7 +29,7 @@ const httpLink = new HttpLink({
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache,
 });
 
