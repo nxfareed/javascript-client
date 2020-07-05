@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotFound() {
+export default function NoMatch() {
   const classes = useStyles();
 
   return (
