@@ -3,11 +3,17 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import ls from "local-storage";
+import { graphql } from "@apollo/react-hoc";
+import Compose from "lodash.flowright";
 import { AddDialog, EditDialog, RemoveDialog, Table } from "./Components";
 import trainee from "./data/trainee";
 import moment from "moment";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import callApi from "../../libs/utils/callApi";
+import GET_TRAINEE from "./query";
+import { MyContext } from "./../../contexts";
 
 const useStyles = (theme) => ({
   root: {
@@ -28,8 +34,12 @@ class Trainee extends Component {
       orderBy: "",
       order: "asc",
       page: 0,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
       newData: {},
+      // rowData: [],
+      loading: true,
+      // count: 0,
+      // message: "",
     };
   }
 
@@ -59,9 +69,21 @@ class Trainee extends Component {
     this.setState({ editOpen: status, removeOpen: status });
   };
 
-  handleDeleteClick = (values) => {
-    this.setState({ removeOpen: false });
-    console.log("Deleted Items", values.data);
+  handleDeleteClick = (refetch) => () => {
+    const { page, rowsPerPage } = this.state;
+    const {
+      data: { getTrainee: { count = 0 } = {} },
+    } = this.props;
+    this.setState({
+      RemoveOpen: false,
+    });
+    if (count - page * rowsPerPage !== 1) {
+      refetch({ skip: page * rowsPerPage, limit: rowsPerPage });
+    } else if (page !== 0) {
+      refetch({ skip: (page - 1) * rowsPerPage, limit: rowsPerPage });
+    } else {
+      refetch({ skip: page * rowsPerPage, limit: rowsPerPage });
+    }
   };
 
   handleEditDialogOpen = (data) => {
@@ -72,13 +94,8 @@ class Trainee extends Component {
     this.setState({ removeOpen: true, newData: data });
   };
 
-  handleChangePage = (event, newPage) => {
-    this.setState({
-      page: newPage,
-    });
-  };
-
   handleChangeRowsPerPage = (event) => {
+    this.componentDidMount();
     this.setState({
       rowsPerPage: event.target.value,
       page: 0,
@@ -87,6 +104,11 @@ class Trainee extends Component {
 
   handleFormat = (date) => moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
+  handleTable = (refetch) => async (event, newPage) => {
+    const { rowsPerPage } = this.state;
+    await refetch({ skip: newPage * rowsPerPage, limit: rowsPerPage });
+    this.setState({ page: newPage });
+  };
   render() {
     const {
       open,
@@ -99,7 +121,10 @@ class Trainee extends Component {
       newData,
     } = this.state;
 
-    const { classes } = this.props;
+    const {
+      classes,
+      data: { getTrainee: { records = [], count = 0 } = {}, refetch, loading },
+    } = this.props;
 
     return (
       <>
@@ -114,7 +139,7 @@ class Trainee extends Component {
         </div>
         <Table
           id="id"
-          data={trainee}
+          data={records}
           columns={[
             {
               field: "name",
@@ -135,10 +160,12 @@ class Trainee extends Component {
           ]}
           action={[
             {
+              label: "editIcon",
               icon: <EditIcon />,
               handler: this.handleEditDialogOpen,
             },
             {
+              label: "deleteIcon",
               icon: <DeleteIcon />,
               handler: this.handleRemoveDialogOpen,
             },
@@ -151,7 +178,8 @@ class Trainee extends Component {
           page={page}
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
-          onChangePage={this.handleChangePage}
+          onChangePage={this.handleTable(refetch)}
+          loading={loading}
         />
 
         <AddDialog
@@ -169,7 +197,7 @@ class Trainee extends Component {
         <RemoveDialog
           data={newData}
           onClose={() => this.handleClose(false)}
-          onSubmit={this.handleDeleteClick}
+          onSubmit={this.handleDeleteClick(refetch)}
           open={removeOpen}
         />
 
@@ -190,5 +218,16 @@ class Trainee extends Component {
 }
 Trainee.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
 };
-export default withStyles(useStyles)(Trainee);
+
+Trainee.contextType = MyContext;
+
+export default Compose(
+  withStyles(useStyles),
+  graphql(GET_TRAINEE, {
+    options: {
+      variables: { skip: 0, limit: 10 },
+    },
+  })
+)(Trainee);
