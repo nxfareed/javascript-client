@@ -3,14 +3,14 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import AddDialog from "./Components/AddDialog/AddDialog";
-import EditDialog from "./Components/EditDialog/EditDialog";
-import RemoveDialog from "./Components/RemoveDialog/RemoveDialog";
+import ls from "local-storage";
+import { AddDialog, EditDialog, RemoveDialog, Table } from "./Components";
 import trainee from "./data/trainee";
-import Table from "./Components/Table/Table";
 import moment from "moment";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import callApi from "../../libs/utils/callApi";
+import { MyContext } from "./../../contexts";
 
 const useStyles = (theme) => ({
   root: {
@@ -26,13 +26,17 @@ class Trainee extends Component {
 
     this.state = {
       open: false,
-      EditOpen: false,
-      RemoveOpen: false,
+      editOpen: false,
+      removeOpen: false,
       orderBy: "",
       order: "asc",
       page: 0,
-      rowsPerPage: 3,
+      rowsPerPage: 10,
       newData: {},
+      rowData: [],
+      loading: true,
+      count: 0,
+      message: "",
     };
   }
 
@@ -41,7 +45,7 @@ class Trainee extends Component {
   };
 
   onSubmit = (data) => {
-    this.setState({ open: false, EditOpen: false }, () => {
+    this.setState({ open: false, editOpen: false }, () => {
       console.log("Submit Item", data);
     });
   };
@@ -59,29 +63,32 @@ class Trainee extends Component {
   };
 
   handleClose = (data, status) => {
-    this.setState({ EditOpen: status, RemoveOpen: status });
+    this.setState({ editOpen: status, removeOpen: status });
   };
 
   handleDeleteClick = (values) => {
-    this.setState({ RemoveOpen: false });
-    console.log("Deleted Items", values);
+    this.setState({ removeOpen: false });
+    console.log("Deleted Items", values.data);
   };
 
   handleEditDialogOpen = (data) => {
-    this.setState({ EditOpen: true, newData: data });
+    this.setState({ editOpen: true, newData: data });
   };
 
   handleRemoveDialogOpen = (data) => {
-    this.setState({ RemoveOpen: true, newData: data });
+    this.setState({ removeOpen: true, newData: data });
   };
 
   handleChangePage = (event, newPage) => {
+    this.componentDidMount(newPage);
     this.setState({
       page: newPage,
+      loading: true,
     });
   };
 
   handleChangeRowsPerPage = (event) => {
+    this.componentDidMount();
     this.setState({
       rowsPerPage: event.target.value,
       page: 0,
@@ -90,6 +97,39 @@ class Trainee extends Component {
 
   handleFormat = (date) => moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
 
+  componentDidMount = (newPage) => {
+    const { rowsPerPage } = this.state;
+    const value = this.context;
+    callApi("get", "/trainee", {
+      params: {
+        skip: newPage * rowsPerPage,
+        limit: newPage * rowsPerPage + rowsPerPage,
+      },
+      headers: {
+        Authorization: ls.get("token"),
+      },
+    }).then((res) => {
+      if (res.data === undefined) {
+        this.setState(
+          {
+            loading: false,
+            message: "This is an error",
+          },
+          () => {
+            const { message } = this.state;
+            value.openSnackBar(message, "error");
+          }
+        );
+      } else {
+        this.setState({
+          rowData: res.data.records,
+          count: res.data.count,
+          loading: false,
+        });
+      }
+    });
+  };
+
   render() {
     const {
       open,
@@ -97,10 +137,14 @@ class Trainee extends Component {
       orderBy,
       page,
       rowsPerPage,
-      EditOpen,
-      RemoveOpen,
+      editOpen,
+      removeOpen,
       newData,
+      rowData,
+      loading,
+      count,
     } = this.state;
+
     const { classes } = this.props;
 
     return (
@@ -116,7 +160,7 @@ class Trainee extends Component {
         </div>
         <Table
           id="id"
-          data={trainee}
+          data={rowData}
           columns={[
             {
               field: "name",
@@ -126,6 +170,7 @@ class Trainee extends Component {
             {
               field: "email",
               label: "Email Address",
+
               format: (value) => value && value.toUpperCase(),
             },
             {
@@ -136,10 +181,12 @@ class Trainee extends Component {
           ]}
           action={[
             {
+              label: "editIcon",
               icon: <EditIcon />,
               handler: this.handleEditDialogOpen,
             },
             {
+              label: "deleteIcon",
               icon: <DeleteIcon />,
               handler: this.handleRemoveDialogOpen,
             },
@@ -153,7 +200,9 @@ class Trainee extends Component {
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
           onChangePage={this.handleChangePage}
+          loading={loading}
         />
+
         <AddDialog
           data={newData}
           onClose={() => this.openDialog(false)}
@@ -164,13 +213,13 @@ class Trainee extends Component {
           data={newData}
           onClose={() => this.handleClose(false)}
           onSubmit={this.onSubmit}
-          open={EditOpen}
+          open={editOpen}
         />
         <RemoveDialog
           data={newData}
           onClose={() => this.handleClose(false)}
           onSubmit={this.handleDeleteClick}
-          open={RemoveOpen}
+          open={removeOpen}
         />
 
         <ul>
@@ -191,4 +240,7 @@ class Trainee extends Component {
 Trainee.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
+
+Trainee.contextType = MyContext;
+
 export default withStyles(useStyles)(Trainee);

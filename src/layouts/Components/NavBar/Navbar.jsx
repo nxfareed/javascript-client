@@ -32,7 +32,7 @@ export default function Navbar() {
             Trainee Portal
           </Typography>
           <Button component={Link} to="/Trainee" color="inherit">
-            Tainee
+            Trainee
           </Button>
           <Button component={Link} to="/TextFieldDemo" color="inherit">
             TextFieldDemo

@@ -11,15 +11,16 @@ import {
   InputAdornment,
   Grid,
 } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import ls from "local-storage";
 import * as yup from "yup";
 import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import PropTypes from "prop-types";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import ls from "local-storage";
-import { MyContext } from "../../../../contexts/SnackBarProvider/SnackBarProvider";
 import callApi from "../../../../libs/utils/callApi";
+import { MyContext } from "../../../../contexts/SnackBarProvider/SnackBarProvider";
+// import callApi from "./../../../../libs/utils/callApi";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required").min(3),
@@ -52,7 +53,7 @@ class AddDialog extends Component {
       password: "",
       confirmPassword: "",
       message: "",
-      loading: "false",
+      loading: false,
       hasError: false,
       error: {
         name: "",
@@ -122,6 +123,54 @@ class AddDialog extends Component {
     }
     return error[field];
   };
+  onClickHandler = async (Data, openSnackBar) => {
+    this.setState({
+      loading: true,
+      hasError: true,
+    });
+
+    const response = await callApi("post", "/trainee", {
+      data: Data,
+      headers: {
+        Authorization: ls.get("token"),
+      },
+    });
+    this.setState({ loading: false, hasError: false });
+    if (response.status === "ok") {
+      this.setState(
+        {
+          hasError: false,
+          message: "This is a success message",
+        },
+        () => {
+          const { message } = this.state;
+          openSnackBar(message, "success");
+        }
+      );
+    } else {
+      this.setState(
+        {
+          hasError: false,
+          message: "This is a error message",
+        },
+        () => {
+          const { message } = this.state;
+          openSnackBar(message, "error");
+        }
+      );
+    }
+  };
+
+  formReset = () => {
+    this.setState({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      touched: {},
+    });
+  };
+
   onClickHandler = async (Data, openSnackBar) => {
     this.setState({
       loading: true,
