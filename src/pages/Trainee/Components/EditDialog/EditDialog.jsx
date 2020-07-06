@@ -14,7 +14,10 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-import { MyContext } from "../../../../contexts";
+import ls from "local-storage";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { MyContext } from "../../../../contexts/SnackBarProvider/SnackBarProvider";
+import callApi from "../../../../libs/utils/callApi";
 
 const useStyles = () => ({
   root: {
@@ -102,8 +105,15 @@ class EditDialog extends Component {
   };
 
   render() {
-    // const { classes } = this.props;
-    const { classes, open, onClose, onSubmit, data } = this.props;
+    const {
+      classes,
+      onSubmit,
+      open,
+      onClose,
+      data,
+      loading: { loading },
+    } = this.props;
+    const { originalId: id } = data;
     const { name, email, isValid } = this.state;
 
     return (
@@ -158,21 +168,18 @@ class EditDialog extends Component {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <MyContext.Consumer>
-            {({ openSnackBar }) => (
-              <Button
-                disabled={!isValid}
-                onClick={() => {
-                  onSubmit({ name, email });
-                  this.formReset();
-                  openSnackBar("This is a success message ! ", "success");
-                }}
-                color="primary"
-              >
-                Submit
-              </Button>
-            )}
-          </MyContext.Consumer>
+          <Button
+            disabled={!isValid || loading}
+            onClick={() => {
+              onSubmit({ name, email, id });
+              this.formReset();
+            }}
+            color="primary"
+          >
+            {loading && <CircularProgress size={15} color="primary" />}
+            {loading && <span>Submiting</span>}
+            {!loading && <span>Submit</span>}
+          </Button>
         </DialogActions>
       </Dialog>
     );
@@ -186,5 +193,6 @@ EditDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool.isRequired,
   data: PropTypes.objectOf(PropTypes.string).isRequired,
 };

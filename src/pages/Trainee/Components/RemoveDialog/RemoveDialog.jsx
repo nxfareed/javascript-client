@@ -10,44 +10,26 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import * as moment from "moment";
-import { MyContext } from "../../../../contexts";
+import { MyContext } from "../../../../contexts/SnackBarProvider/SnackBarProvider";
+import callApi from "../../../../libs/utils/callApi";
+import ls from "local-storage";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class RemoveDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      message: "",
-    };
+    this.state = {};
   }
 
-  handleSnackBarMessage = (data, openSnackBar) => {
-    const date = "2019-02-14T18:15:11.778Z";
-    const isAfter = moment(data.createdAt).isAfter(date);
-    if (isAfter) {
-      this.setState(
-        {
-          message: "This is a success Message! ",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "success");
-        }
-      );
-    } else {
-      this.setState(
-        {
-          message: "This is an error Message!",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "error");
-        }
-      );
-    }
-  };
-
   render = () => {
-    const { onClose, open, onSubmit, data } = this.props;
+    const {
+      onClose,
+      open,
+      data,
+      onSubmit,
+      loading: { loading },
+    } = this.props;
+    const { originalId: id } = data;
     return (
       <div>
         <Dialog
@@ -66,20 +48,18 @@ class RemoveDialog extends React.Component {
             <Button onClick={onClose} color="primary">
               Cancel
             </Button>
-            <MyContext.Consumer>
-              {({ openSnackBar }) => (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    onSubmit(data);
-                    this.handleSnackBarMessage(data, openSnackBar);
-                  }}
-                >
-                  Delete
-                </Button>
-              )}
-            </MyContext.Consumer>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                onSubmit({ id });
+              }}
+              disabled={loading}
+            >
+              {loading && <CircularProgress size={15} color="inherit" />}
+              {loading && <span>Deleting</span>}
+              {!loading && <span>Delete</span>}
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -92,5 +72,6 @@ RemoveDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   data: PropTypes.objectOf(PropTypes.string).isRequired,
 };

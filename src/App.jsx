@@ -5,6 +5,10 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+import { ApolloProvider } from "@apollo/react-components";
+import apolloClient from "./libs/apollo-client";
+import Wrapper from "./pages/Login/Wrapper";
+import ls from "local-storage";
 import {
   ChildrenDemo,
   Trainee,
@@ -20,19 +24,37 @@ const App = () => {
   return (
     <div>
       <SnackBarProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/Trainee" />
-            </Route>
-            <AuthRoute path="/Login" component={Login} />
-            <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
-            <PrivateRoute path="/Trainee" component={Trainee} />
-            <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
-            <PrivateRoute path="/InputDemo" component={InputDemo} />
-            <PrivateRoute component={NoMatch} />
-          </Switch>
-        </Router>
+        <ApolloProvider client={apolloClient}>
+          {ls.get("token") ? (
+            <Router>
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/Trainee" />
+                </Route>
+                <AuthRoute path="/Login" component={Wrapper} />
+                <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+                <PrivateRoute path="/Trainee" component={Trainee} />
+                <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+                <PrivateRoute path="/InputDemo" component={InputDemo} />
+                <PrivateRoute component={NoMatch} />
+              </Switch>
+            </Router>
+          ) : (
+            <Router>
+              <Switch>
+                <Route exact path="/">
+                  <Redirect to="/Login" />
+                </Route>
+                <AuthRoute path="/Login" component={Wrapper} />
+                <PrivateRoute path="/ChildrenDemo" component={ChildrenDemo} />
+                <PrivateRoute path="/Trainee" component={Trainee} />
+                <PrivateRoute path="/TextFieldDemo" component={TextFieldDemo} />
+                <PrivateRoute path="/InputDemo" component={InputDemo} />
+                <PrivateRoute component={NoMatch} />
+              </Switch>
+            </Router>
+          )}
+        </ApolloProvider>
       </SnackBarProvider>
     </div>
   );
