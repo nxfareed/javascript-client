@@ -32,7 +32,6 @@ class EditDialog extends Component {
       name: "",
       email: "",
       isValid: false,
-      loading: false,
       touched: {},
     };
   }
@@ -96,44 +95,6 @@ class EditDialog extends Component {
     );
   };
 
-  onClickHandler = async (Data, openSnackBar) => {
-    const { onSubmit } = this.props;
-
-    this.setState({
-      loading: true,
-    });
-    const response = await callApi("put", "/trainee", {
-      data: { ...Data },
-      headers: {
-        Authorization: ls.get("token"),
-      },
-    });
-    this.setState({ loading: false });
-    if (response.status === "ok") {
-      this.setState(
-        {
-          message: "This is a success message",
-        },
-        () => {
-          const { message } = this.state;
-          onSubmit(Data);
-
-          openSnackBar(message, "success");
-        }
-      );
-    } else {
-      this.setState(
-        {
-          message: "This is a error message",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "error");
-        }
-      );
-    }
-  };
-
   formReset = () => {
     this.setState({
       name: "",
@@ -144,10 +105,16 @@ class EditDialog extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { open, onClose, data } = this.props;
+    const {
+      classes,
+      onSubmit,
+      open,
+      onClose,
+      data,
+      loading: { loading },
+    } = this.props;
     const { originalId: id } = data;
-    const { name, email, isValid, loading } = this.state;
+    const { name, email, isValid } = this.state;
 
     return (
       <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -201,22 +168,18 @@ class EditDialog extends Component {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <MyContext.Consumer>
-            {({ openSnackBar }) => (
-              <Button
-                disabled={!isValid}
-                onClick={() => {
-                  this.onClickHandler({ name, email, id }, openSnackBar);
-                  this.formReset();
-                }}
-                color="primary"
-              >
-                {loading && <CircularProgress size={15} color="primary" />}
-                {loading && <span>Submiting</span>}
-                {!loading && <span>Submit</span>}
-              </Button>
-            )}
-          </MyContext.Consumer>
+          <Button
+            disabled={!isValid || loading}
+            onClick={() => {
+              onSubmit({ name, email, id });
+              this.formReset();
+            }}
+            color="primary"
+          >
+            {loading && <CircularProgress size={15} color="primary" />}
+            {loading && <span>Submiting</span>}
+            {!loading && <span>Submit</span>}
+          </Button>
         </DialogActions>
       </Dialog>
     );
@@ -230,5 +193,6 @@ EditDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool.isRequired,
   data: PropTypes.objectOf(PropTypes.string).isRequired,
 };

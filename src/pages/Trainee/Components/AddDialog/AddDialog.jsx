@@ -52,8 +52,6 @@ class AddDialog extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      message: "",
-      loading: false,
       hasError: false,
       error: {
         name: "",
@@ -123,91 +121,6 @@ class AddDialog extends Component {
     }
     return error[field];
   };
-  onClickHandler = async (Data, openSnackBar) => {
-    this.setState({
-      loading: true,
-      hasError: true,
-    });
-
-    const response = await callApi("post", "/trainee", {
-      data: Data,
-      headers: {
-        Authorization: ls.get("token"),
-      },
-    });
-    this.setState({ loading: false, hasError: false });
-    if (response.status === "ok") {
-      this.setState(
-        {
-          hasError: false,
-          message: "This is a success message",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "success");
-        }
-      );
-    } else {
-      this.setState(
-        {
-          hasError: false,
-          message: "This is a error message",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "error");
-        }
-      );
-    }
-  };
-
-  formReset = () => {
-    this.setState({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      touched: {},
-    });
-  };
-
-  onClickHandler = async (Data, openSnackBar) => {
-    this.setState({
-      loading: true,
-      hasError: true,
-    });
-
-    const response = await callApi("post", "/trainee", {
-      data: Data,
-      headers: {
-        Authorization: ls.get("token"),
-      },
-    });
-    this.setState({ loading: false, hasError: false });
-    if (response.status === "ok") {
-      this.setState(
-        {
-          hasError: false,
-          message: "This is a success message",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "success");
-        }
-      );
-    } else {
-      this.setState(
-        {
-          hasError: false,
-          message: "This is a error message",
-        },
-        () => {
-          const { message } = this.state;
-          openSnackBar(message, "error");
-        }
-      );
-    }
-  };
 
   formReset = () => {
     this.setState({
@@ -220,8 +133,13 @@ class AddDialog extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { open, onClose, onSubmit } = this.props;
+    const {
+      classes,
+      open,
+      onClose,
+      onSubmit,
+      loading: { loading },
+    } = this.props;
     const {
       name,
       email,
@@ -229,9 +147,7 @@ class AddDialog extends Component {
       confirmPassword,
       hasError,
       error,
-      loading,
     } = this.state;
-    console.log(this.state);
     this.hasErrors();
     return (
       <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -241,10 +157,11 @@ class AddDialog extends Component {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                label="Name *"
-                id="outlined-start-adornment"
+                required
+                label="Name "
+                id="Name"
                 value={name}
-                error={Boolean(error.name)}
+                error={!!error.name}
                 fullWidth
                 onChange={this.handleChange("name")}
                 helperText={this.getError("name")}
@@ -262,9 +179,9 @@ class AddDialog extends Component {
             <Grid item xs={12}>
               <TextField
                 label="Email Address"
-                id="outlined-start-adornment"
+                id="email"
                 value={email}
-                error={Boolean(error.email)}
+                error={!!error.email}
                 fullWidth
                 onChange={this.handleChange("email")}
                 helperText={this.getError("email")}
@@ -285,7 +202,7 @@ class AddDialog extends Component {
                 id="outlined-start-adornment"
                 type="password"
                 value={password}
-                error={Boolean(error.password)}
+                error={!!error.password}
                 fullWidth
                 onChange={this.handleChange("password")}
                 helperText={this.getError("password")}
@@ -303,9 +220,9 @@ class AddDialog extends Component {
             <Grid item xs={6}>
               <TextField
                 label="Confirm Password"
-                id="outlined-start-adornment"
+                id="password"
                 type="password"
-                error={Boolean(error.confirmPassword)}
+                error={!!error.confirmPassword}
                 fullWidth
                 value={confirmPassword}
                 onChange={this.handleChange("confirmPassword")}
@@ -327,29 +244,24 @@ class AddDialog extends Component {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <MyContext.Consumer>
-            {({ openSnackBar }) => (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  onSubmit()({
-                    name,
-                    email,
-                    password,
-                    confirmPassword,
-                  });
-                  this.onClickHandler({ name, email, password }, openSnackBar);
-                  this.formReset();
-                }}
-                disabled={hasError}
-              >
-                {loading && <CircularProgress size={15} />}
-                {loading && <span>Submiting</span>}
-                {!loading && <span>Submit</span>}
-              </Button>
-            )}
-          </MyContext.Consumer>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              onSubmit({
+                name,
+                email,
+                password,
+                confirmPassword,
+              });
+              this.formReset();
+            }}
+            disabled={hasError || loading}
+          >
+            {loading && <CircularProgress size={15} />}
+            {loading && <span>Submiting</span>}
+            {!loading && <span>Submit</span>}
+          </Button>
         </DialogActions>
       </Dialog>
     );
@@ -362,4 +274,6 @@ AddDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
